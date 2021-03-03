@@ -1,0 +1,30 @@
+<ul class="b-mobile-nav__list">
+
+    {% for item in menu %}
+	{% if loop.first %}
+	<li class="b-mobile-nav__item js-accordion__item ">
+         <span class="b-mobile-nav__link b-mobile-nav__link_accordion js-accordion__trigger">{{ item.info.title }}</span>
+		 <ul class="b-mobile-subnav js-accordion__content">
+                     <li class="b-mobile-nav__item">
+                         <a href="{{ Url.toRoute('/category')  }}" class="b-mobile-nav__link">{{ this.params.all_menu }}</a>
+                     </li>
+                    {% for category in categories %}
+                    
+                    <li class="b-mobile-nav__item">
+                        <a href="{{ category.url  }}" class="b-mobile-nav__link">{{ category.info.title }}</a>
+                    </li>
+                    
+                    {% endfor %}
+                </ul>
+    </li>
+	{% else %}
+    <li class="b-mobile-nav__item ">
+        <a href="{{ item.url }}" class="b-mobile-nav__link">{{ item.info.title }}</a>
+    </li>
+	{% endif %}
+    {% endfor %}
+
+
+
+
+</ul>

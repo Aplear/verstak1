@@ -1,0 +1,22 @@
+
+<div class="header__bottom">
+    <div class="container">
+
+
+        <nav class="nav__menu">
+            {% for item in menu %}
+                {% if loop.first or loop.index%3==1 %}
+            <ul class="menu_list_1">
+                {% endif %}
+                <li class="">
+                    <a href="{{ item.url }}" class="b-info-menu__link {% if this.params.current_url==item.url %}active{% endif %}">{{ item.info.title }}</a>
+                </li>
+
+                {% if loop.last or loop.index%3==0 %}
+            </ul>
+            {% endif %}
+            {% endfor %}
+
+        </nav>
+    </div>
+</div>

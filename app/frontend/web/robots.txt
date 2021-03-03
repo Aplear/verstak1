@@ -1,0 +1,25 @@
+User-agent: *
+Disallow: /*utm
+Disallow: /*sort=
+Disallow: /*admin
+Disallow: /*backet
+Disallow: /*refresh-password
+
+
+User-agent: Googlebot
+Disallow: /*utm
+Disallow: /*sort=
+Disallow: /*admin
+Disallow: /*backet
+Disallow: /*refresh-password
+
+User-agent: Yandex
+Disallow: /*utm
+Disallow: /*sort=
+Disallow: /*admin
+Disallow: /*backet
+Disallow: /*refresh-password
+
+Host: https://3piroga.ua
+
+Sitemap: https://3piroga.ua/sitemap.xml

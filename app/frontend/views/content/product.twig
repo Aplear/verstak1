@@ -1,0 +1,194 @@
+{{ use('frontend/widgets/SLinkPagerAjax') }}
+<div class="row ">
+    {% for product in products %}
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 is__padding_0">
+        <div class="cart_goods">
+            <div class="name_cart"><a href="{{ product.url }}">{{ product.info.title }}</a></div>
+            <a href="{{ product.url }}">
+                <div class="img_cart" style="background-image: url('{{ product.bimg }}')"></div>
+				{% if stikers and product.stikers.0.stikers_id%}
+                        {% for stiker in stikers %}
+                            {% if stiker.id == product.stikers.0.stikers_id %}
+                                <div class="block-stikers">
+                                    <img class="stiker_home_product" src='{{stiker.getImgPng(product.stikers.0.stikers_id) }}'>	
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+            </a>
+            <div class="line_1">
+                <ul class="size_goods js-category-{{ product.id }}">
+                    {% for params in product.params %}
+                    <li data-price="{{  params.price }}" data-id="{{ params.id  }}"
+                        class="js-item-{{ params.price }} item {% if loop.first %}active{% endif %} sk_item sk_item_{{ params.id  }}">
+                        <div class="circle_part js-change-price-ajax" data-price="{{ params.price }}"
+                             data-id="{{ product.id }}" data-param="{{ params.id  }}">
+                            <div class="item_value">{{ params.values.value }}</div>
+                            <div class="item_txt">{{params.nameValue.info.value}}</div>
+                        </div>
+                        {% if params.weights %}
+                        <div class="inline_part">
+                            {{ params.weights.value }}{{ this.params.gramm }}
+                        </div> 
+                        {% endif %}
+                    </li>
+                    {% endfor %}
+
+                </ul>
+                <div class="price">
+                    <span class="price_title">{{ this.params.price_text }}</span>
+                    {% for params in product.params %}
+                    {% if loop.first %}
+                        {% set skNewPrice = params.price|split('.') %}
+						<span class="count js-ccc-{{ product.id }} js-count-view-{{ product.id }}">{{ skNewPrice[0] }}{% if skNewPrice[1] %}<span class="skCents">{{ skNewPrice[1] }}</span>{% endif %}</span>
+                    {% endif %}
+                    {% endfor %}
+                    <span class="txt">{{ this.params.grn }}</span>
+                </div>
+            </div>
+            <div class="line_1">
+                <div class="b-product__qty">
+                    <span class="js-qty-minus js-count-in-catalog-ajax" data-id="{{ product.id }}"><i
+                            class="fas fa-minus-circle"></i></span>
+                    <input type="text" pattern="\d [1-9]" name="" data-id="{{ product.id }}"
+                           class="js-qty-input js-count-add-{{ product.id }}" value="1">
+                    <span class="js-qty-plus js-count-in-catalog-ajax" data-id="{{ product.id }}"><i
+                            class="fas fa-plus-circle"></i></span>
+                </div>
+
+                <div class="but_add">
+                    <a href="" data-id="{{ product.id }}" class="js-add-to-cart-ajax">{#Добавить в коробку#}{{
+                        this.params.added_to_box }}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<div class="pagination_my">
+    {{ s_link_pager_ajax_widget({
+    'pagination' : pages,
+    'maxButtonCount' : 5,
+    'category_id' : id,
+    'options' : {
+    'class' : 'pagination_list',
+    },
+    'linkOptions' : {
+    'class' : 'list_item',
+    },
+
+    }) }}
+</div>
+<script>
+    $(document).ready(function () {
+        (function () {
+            if ($('.b-product__qty').length) {
+                $('.js-qty-input').focus(function () {
+                    //$(this).attr('value', '');
+                    $(this).val('');
+                });
+                $('.js-qty-input').blur(function () {
+                    if ($(this).val() === '') {
+                        $(this).attr('value', 1);
+                        $(this).val(1);
+                    }
+                    else {
+                        $(this).attr('value', $(this).val());
+                    }
+                });
+            }
+        })();
+        $(".js-qty-input").on("change paste keyup", function (e) {
+
+            var count = $(this).val();
+            var id = $(e.currentTarget).data('id');
+            var price = $('.js-category-' + id + ' .item.active .js-change-price-ajax').data('price');
+            var total = price * count;
+            if (count > 0) {
+                $('.js-count-view-' + id).html(skPriceLetter(total));//.text(price * count);
+            }
+        });
+
+        $('.js-qty-plus').on('click', function (e) {
+            var id = $(e.currentTarget).data('id');
+            var count = Number($('.js-count-add-' + id).val()) + 1;
+
+            //  var id =  $(e.currentTarget).data('id');
+            var price = $('.js-category-' + id + ' .item.active .js-change-price-ajax').data('price');
+
+            if (count > 0) {
+                var total = price * count;
+                console.log(total, id);
+                $('.js-count-view-' + id).html(skPriceLetter(total));
+                $('.js-count-add-' + id).val(count);
+            } else {
+                $(this).val(1);
+            }
+        });
+        $('.js-qty-minus').on('click', function (e) {
+            var id = $(e.currentTarget).data('id');
+            var count = Number($('.js-count-add-' + id).val()) - 1;
+
+            //  var id =  $(e.currentTarget).data('id');
+            var price = $('.js-category-' + id + ' .item.active .js-change-price-ajax').data('price');
+            var total = price * count;
+            if (count > 0) {
+                // alert(price*count);
+                $('.js-count-view-' + id).html(skPriceLetter(total));
+                $('.js-count-add-' + id).val(count)
+            } else {
+                $(this).val(1);
+            }
+        });
+         $(document).on('click', '.js-change-price-ajax', function (e) {
+        //$('.js-change-price-ajax').on('click', function (e) {
+
+            e.preventDefault();
+            var id = $(e.currentTarget).data('id');
+            var param = $(e.currentTarget).data('param');
+            var price = $(e.currentTarget).data('price');
+            var full_price = $(e.currentTarget).data('price') * $('.js-count-add-' + id).val();
+            console.log(id, price, param);
+            //sk_item_
+            $('.js-category-' + id + ' .item').removeClass('active');
+            $('.js-category-' + id + ' .sk_item_' + param).addClass('active');
+            
+            //$('.js-category-' + id + ' .sk_item').removeClass('active');
+            //$('.js-category-' + id + ' .sk_item_' + id).addClass('active');
+            
+            //$('.js-count-view-' + id).text(full_price);
+            $('.js-count-view-' + id).html(skPriceLetter(full_price));
+        });
+        $('.js-qty-input').bind("change keyup input click", function (e) {
+            var number = parseInt($(this).val());
+            if (this.value.length > 1) {
+                if (this.value.match(/[^0-9]/g)) {
+                    this.value = this.value.replace(/[^0-9]/g, '');
+                }
+
+                if (number > 100) {
+                    this.value = 100;
+                }
+            }
+            else {
+                if (this.value.match(/[^1-9]/g)) {
+                    this.value = this.value.replace(/[^1-9]/g, '');
+                }
+            }
+        });
+
+        setTimeout(function () {
+            $('.header__basket').removeClass('basket_show');
+        }, 5000);
+
+        var timer = null;
+
+        $('.js-add-to-cart').on("click", function () {
+            $('.header__basket').addClass('basket_show');
+            clearTimeout(timer);
+            timer = setTimeout(function () {
+                $('.header__basket').removeClass('basket_show');
+            }, 5000);
+        });
+    })
+</script>

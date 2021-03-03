@@ -1,0 +1,73 @@
+<section class="breadcrumbs_shares_page">
+    <div class="container">
+         <ul class="bread_list" itemscope itemtype="https://schema.org/BreadcrumbList">
+            <li class="item" itemprop="itemListElement" itemscope
+			    itemtype="http://schema.org/ListItem">
+                <a itemprop="item" href="{{ Url.home() }}" class="link"><span itemprop="name" >{{ this.params.main }}</span></a>
+				<meta itemprop="position" content="1" />
+            </li>
+            <li class="item">
+                <span> / </span>
+            </li>
+            <li class="item" itemprop="itemListElement" itemscope
+			    itemtype="http://schema.org/ListItem">
+				<a itemprop="item"  class="link" ><span itemprop="name">{{ this.params.discounts }}</span></a>
+				<meta itemprop="position" content="2" />
+            </li>
+
+        </ul>
+    </div>
+</section>
+
+
+<section class="shares_page">
+    <div class="container">
+        <h1 class="head_section">
+         {{ Seo.get('h1') }}
+        </h1>    
+    
+        {% for discount in discounts %}
+        <div class="shares_item">
+            <div class="row">
+
+                <div class="col-md-6 ">
+                    <a href="{{ discount.url }}" class="shares_img">
+                        <img src="" class="lazy-img-in-src" data-src="{{ discount.imgpng }}" alt="  {{ discount.info.title }}">
+                    </a>
+
+                </div>
+
+                <div class="col-md-6 ">
+                    <div class="shares_content">
+                        <a href="{{ discount.url }}" class="shares_name">
+                            <h2>
+                            {{ discount.info.title }}
+                            </h2> 						
+                        </a>
+
+                        <div class="shares_txt">
+                        {{ discount.info.short_description|raw }}
+                        </div>
+
+                        <div class="shares_time_block">
+                            <a {#style="content: url(/app/frontend/web/img/clock.png);"#} href="{{ discount.url }}" class="shares_time">
+                                {{ discount.info.title_on_button }}
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+
+
+        <div class="seo_txt">
+            <div class="txt">
+                {{ Seo.get('text')|raw }}
+
+                 </div>
+        </div>
+    </div>
+</section>

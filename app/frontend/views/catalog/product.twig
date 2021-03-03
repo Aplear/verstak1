@@ -1,0 +1,411 @@
+{{ use('frontend/widgets/Logo') }}
+{{ use('frontend/widgets/SLinkPager') }}
+<div class="breadcrumbs_goods_item_page">
+	<div class="container">
+		<ul class="bread_list" itemscope itemtype="https://schema.org/BreadcrumbList">
+			<li class="item"  itemprop="itemListElement" itemscope
+				itemtype="http://schema.org/ListItem">
+				<a itemprop="item" href="{{ Url.home() }}" class="link"><span itemprop="name" >{{ this.params.main }}</span></a>
+				<meta itemprop="position" content="1" />
+			</li>
+			<li class="item">
+				<span> / </span>
+			</li>
+			<li class="item" itemprop="itemListElement" itemscope
+				itemtype="http://schema.org/ListItem">
+				<a href="{{ Url.toRoute('/category') }}" class="link" itemprop="item"   ><span itemprop="name" >{{ this.params.all_menu }}</span></a>
+				<meta itemprop="position" content="2" />
+			</li>
+			<li class="item">
+				<span> / </span>
+			</li>
+			<li class="item" itemprop="itemListElement" itemscope
+				itemtype="http://schema.org/ListItem">
+				<a href="{{ product.parent.url }}" class="link" itemprop="item"   ><span itemprop="name" >{{ product.parent.info.title }}</span></a>
+				<meta itemprop="position" content="3" />
+			</li>
+			<li class="item">
+				<span> / </span>
+			</li>
+			<li class="item"  itemprop="itemListElement" itemscope
+				itemtype="http://schema.org/ListItem">
+				<a itemprop="item"  class="link"><span itemprop="name">{{ product.info.title }}</span></a>
+				<meta itemprop="position" content="4" />
+			</li>
+		</ul>
+	</div>
+
+</div>
+
+<section itemscope itemtype="http://schema.org/Product" class="goods_item_page">
+	<link itemprop="url" href="{{ product.url }}" />
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 col-lg-2 is__padding_0">
+				<div class="content">
+					<ul class="left_bar">
+						<li class="item {%  if this.params.current_url=='category'%} active{% endif %} ">
+							<a href="{{ Url.toRoute('/category') }}" class="link">
+								<div class="img_link" style="background-image : url('/img/icon-1.png') ">
+								</div>
+								<div class="txt_link">
+                                    {{ this.params.all_menu }}
+								</div>
+							</a>
+						</li>
+                        {% for category in categories %}
+							<li class="item{%  if category.url==product.parent.url%} active{% endif %}">
+								<a href="{{ category.url }}" class="link">
+									<div class="img_link" style="background-image: url({{ category.imgpng }}">
+									</div>
+									<div class="txt_link">
+                                        {{ category.info.title }}
+									</div>
+								</a>
+							</li>
+                        {% endfor %}
+
+					</ul>
+                    {{ logo_widget() }}
+				</div>
+
+			</div>
+			<div  class="col-md-12 col-lg-10 is__padding_right_0 catalog_list">
+				<span itemprop="brand" style="display: none">3piroga.ua</span>
+				<div class="col-md-12 padding_left_media">
+					<div class="col-md-5 col-lg-5 is__padding_right_0 padding_left_media">
+						<div class="goods_item_img">
+							<img itemprop="image" title="{{ product.info.title }} - 3piroga.ua" alt="{{ product.info.title }} - 3piroga.ua" src="{{ product.bimg }}" alt="{{ product.info.title }}" class="js-fullScrn">
+                            {% if stikers and product.stikers.0.stikers_id%}
+                                {% for stiker in stikers %}
+                                    {% if stiker.id == product.stikers.0.stikers_id %}
+										<div class="block-stikers">
+											<img class="stiker_detail_product" src='{{stiker.getImgPng(product.stikers.0.stikers_id) }}'>
+										</div>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+
+
+						</div>
+
+						<div class="product_share">
+						<ul class="goods_item_size js-category-{{ product.id }}">
+                            {% for params in product.params %}
+								<li data-price="{{  params.price }}" data-id="{{ params.id  }}" class="item {% if loop.first %}active{% endif %}">
+									<div class="circle_part middle js-change-price" data-price="{{ params.price }}" data-id="{{ product.id }}" >
+										<div class="item_value">{{ params.values.value }}</div>
+										<div class="item_txt">{{ params.nameValue.info.value}}</div>
+									</div>
+
+                                    {% if params.weights %}
+                                        <div class="inline_part">
+                                            {{ params.weights.value }}{{ this.params.gramm }}
+                                        </div>
+                                    {% endif %}
+
+								</li>
+                            {% endfor %}
+						</ul>
+						<div itemprop="offers" itemscope itemtype="http://schema.org/Offer" class="goods_item_price">
+								<meta itemprop="availability" content="https://schema.org/InStock" />
+								<meta itemprop="priceValidUntil" content="{{ "now + 1 day"|date("Y-m-d") }}" />
+								<link itemprop="url" href="{{ product.url }}" />
+								<div class="price">
+									<span class="price_title">{{ this.params.price_text }}</span>
+                                    {% for params in product.params %}
+                                        {% if loop.first %}
+                                            {% set skNewPrice = params.price|split('.') %}
+											<meta itemprop="price" content="{{ params.price }}" />
+											<meta itemprop="priceCurrency" content="UAH" />
+											<span class="count js-count-view-{{ product.id }}">{{ skNewPrice[0] }}{% if skNewPrice[1] %}<span class="skCents">{{ skNewPrice[1] }}</span>{% endif %}</span>
+                                        {% endif %}
+                                    {% endfor %}
+									<span class="txt">{{ this.params.grn }}</span>
+								</div>
+
+
+							</div>
+
+							<div class="goods_item_info">
+
+
+								<div class="b-product__qty">
+									<span class="js-qty-minus js-count-in-catalog" data-id="{{ product.id }}"><span class="fas fa-minus-circle"></span></span>
+									<input type="text" pattern="\d [1-9]" name="" data-id="{{ product.id }}" class="js-qty-input js-count-add-{{ product.id }}" value="1">
+									<span class="js-qty-plus js-count-in-catalog" data-id="{{ product.id }}"><span class="fas fa-plus-circle"></span></span>
+								</div>
+
+								<div class="but_add">
+									{% if product.hidden %}
+										{{ this.params.hidden_product }}
+									{% else %}
+									<a href="" data-id="{{ product.id }}" class="js-add-to-cart">{{ this.params.added_to_box }}</a>
+									{% endif %}
+								</div>
+
+							</div>
+
+						</div>
+
+					</div>
+
+					<div  class="col-md-7 col-lg-7 is__padding_right_0 padding_left_media">
+						<div class="goods_item_content">
+							<span itemprop="sku" style="display: none">{{ product.info.title }}</span>
+							<h1 itemprop="name" class="goods_item_name">
+                                {{ product.info.title }}
+							</h1>
+
+							<div itemprop="description" class="goods_item_txt">
+                                {{ product.info.text|raw  }}
+							</div>
+
+                            {% if product.consists %}
+							<div class="goods_item_ingredients">
+								<div class="title">{#Состав#}{{ this.params.consist }}:</div>
+								<ul class="ingredients_list">
+                                    {% for consist in product.consists %}
+										<li class="item_ingredient">
+											<img src="{{ consist.consist.bimg }}" alt="">
+											<div class="txt_item">{{ consist.consist.info.title }}</div>
+										</li>
+
+                                    {% endfor %}
+								</ul>
+
+							</div>
+                            {% endif %}
+
+						</div>
+
+
+					</div>
+                    {% if product.similars %}
+
+
+						<div  class="col-md-12 is__padding_right_0 padding_left_media">
+							<div class="slider_goods_cart">
+								<div class="header_slider 1">
+                                    {#С этим пирогом берут:#}{{ this.params.with_this2 }}
+								</div>
+
+								<div class="js--bxSlider_2">
+                                    {% for similar_product in product.similars %}
+										<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 is__padding_0" >
+											<div class="cart_goods_small">
+												<div class="name_cart"><a href="{{ similar_product.product.url }}">{{ similar_product.product.info.title }}</a></div>
+												<a href="{{ similar_product.product.url }}"><div title="{{ similar_product.product.info.title }} - 3piroga.ua"  class="img_cart" style="background-image: url('{{ similar_product.product.bimg }}')"></div>
+                                                    {% if stikers and similar_product.product.stikers.0.stikers_id%}
+                                                        {% for stiker in stikers %}
+                                                            {% if stiker.id == similar_product.product.stikers.0.stikers_id %}
+																<div class="block-stikers">
+																	<img class="stiker_recommend_product" src='{{stiker.getImgPng(similar_product.product.stikers.0.stikers_id) }}'>
+																</div>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    {% endif %}
+												</a>
+												<div class="line_1">
+													<ul class="size_goods js-category-{{ similar_product.product.id }}">
+                                                        {% for params in similar_product.product.params %}
+															<li data-price="{{  params.price }}" data-id="{{ params.id  }}" class="item {% if loop.first %}active{% endif %}">
+																<div class="circle_part js-change-price" data-price="{{ params.price }}" data-id="{{ similar_product.product.id }}" >
+																	<div class="item_value">{{ params.values.value }}</div>
+																	<div class="item_txt">{{ params.nameValue.info.value }}</div>
+																</div>
+
+                                                                {% if params.weights.value %}
+                                                                    	<div class="inline_part">
+                                                                            {{ params.weights.value }}{{ this.params.gramm }}
+                                                                        </div>
+                                                                {% endif %}
+
+															</li>
+                                                        {% endfor %}
+
+													</ul>
+													<div class="price">
+														<span class="price_title">{{ this.params.price_text }}</span>
+                                                        {% for params in similar_product.product.params %}
+                                                            {% if loop.first %}
+                                                                {% set skNewPrice = params.price|split('.') %}
+
+
+																<span class="count js-count-view-{{ similar_product.product.id }}">{{ skNewPrice[0] }}{% if skNewPrice[1] %}<span class="skCents">{{ skNewPrice[1] }}</span>{% endif %}</span>
+                                                            {% endif %}
+                                                        {% endfor %}
+														<span class="txt">{{ this.params.grn }}</span>
+													</div>
+												</div>
+												<div class="line_1">
+													<div class="b-product__qty">
+														<span class="js-qty-minus js-count-in-catalog" data-id="{{ similar_product.product.id }}"><span class="fas fa-minus-circle"></span></span>
+														<input type="text" pattern="\d [1-9]" name="" data-id="{{ similar_product.product.id }}" class="js-qty-input js-count-add-{{ similar_product.product.id }}" value="1">
+														<span class="js-qty-plus js-count-in-catalog" data-id="{{ similar_product.product.id }}"><span class="fas fa-plus-circle"></span></span>
+													</div>
+
+													<div class="but_add">
+														<a href="" data-id="{{ similar_product.product.id }}" class="js-add-to-cart">{#Добавить в  коробку#}{{ this.params.added_to_box }}</a>
+													</div>
+												</div>
+											</div>
+										</div>
+                                    {% endfor %}
+								</div>
+
+								<div class="slider_control_2">
+									<div class="slider-prev_2"></div>
+									<div class="slider-next_2"></div>
+								</div>
+
+
+							</div>
+						</div>
+                    {% endif %}
+
+                  <div class="col-md-12 is__padding_right_0 padding_left_media">
+		             <div class="seo_txt">
+			                    <div class="txt">
+				                    <!--seo_text_start-->
+                                    {{ Seo.get('text')|raw  }}
+				                    <!--seo_text_end-->
+			                    </div>
+		             </div>
+	              </div>
+				</div>
+				
+				<div class="col-sm-12">
+					<div class="but_add_reviews" >
+						<a href="" data-id="{{ product.id }}" data-toggle="modal" data-target="#modal_reviews">{{ this.params.added_to_review }}</a>
+					</div>
+                    {% if feedbacks %}
+						<div class="col-md-12 is__padding_right_0 padding_left_media">
+
+
+							<div class="slider_goods_cart">
+								<div class="header_slider 1">
+                                    {{ this.params.review }}
+								</div>
+								<div class="reviews_page" >
+
+										{% set userCounter = 0 %}
+										{% set avgCounter = 0 %}
+
+
+                                        {% for feedback in feedbacks %}
+											{% set userCounter = userCounter + 1 %}
+											{% set avgCounter = avgCounter + feedback.mark %}
+
+											<div itemprop="review" itemscope itemtype="http://schema.org/Review" class="reviews_item_box">
+												<div class="reviews_item">
+													<div class="name_date">
+														<span itemprop="author" class="name">{{ feedback.name }}</span>
+
+														<span class="date">{{ feedback.creation_time|date('d.m.Y') }}</span>
+													</div>
+													<meta itemprop="datePublished" content="{{ feedback.creation_time|date('d.m.Y') }}">
+													<div id="raying-{{ feedback.id }}" class="rating" data-id="{{ feedback.id }}"  data-count="{{ feedback.mark }}"></div>
+
+													<div itemprop="reviewRating" itemscope="" itemtype="http://schema.org/Rating" style="display: none">
+														<meta itemprop="worstRating" content="0">
+														#Минимальная оценка
+														<span itemprop="ratingValue">{{ feedback.mark }}</span>/ #Оценка пользователя
+														<span itemprop="bestRating">5</span>звезд.  /#Максимальная оценка
+													</div>
+
+													<div itemprop="name" class="txt">{{ feedback.text }} </div>
+													<div style="padding-left: 2%;padding-top: 2%" class="answers">
+                                                        {% for answer in feedbacks_answer %}
+                                                            {% if(feedback.id == answer.parent_id) %}
+																<div class="name_date" >
+																	<span style="color: #FF7500" class="name"><img style="width: 40px" src="/img/header/logo.png"></span>
+																</div>
+																<div style="color: #FF7500" class="txt">
+                                                                    {{ answer.text}}
+																</div>																<span style="color: #FF7500" class="date">{{ answer.create_at|date('d.m.Y') }}</span>
+
+                                                            {% endif %}
+                                                        {% endfor %}
+													</div>
+												</div>
+											</div>
+                                        {% endfor %}
+
+									<div itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating" style="display: none">
+										<span itemprop="ratingValue">{{ avgCounter/userCounter }}</span>
+										<meta itemprop="bestRating" content="5"/>
+										<meta itemprop="worstRating" content="0"/>
+										<span itemprop="ratingCount">{{ userCounter }}</span>
+										<span itemprop="reviewCount">{{ userCounter }}</span>
+									</div>
+
+								</div>
+								{#<div class="pagination_block">
+
+                                    {{ s_link_pager_widget({
+                                        'pagination' : pages,
+                                        'maxButtonCount' : 5,
+                                        'options' : {
+                                            'class' : 'pagination_list',
+                                        },
+                                        'linkOptions' : {
+                                            'class' : 'list_item',
+                                        },
+                                    }) }}
+
+
+
+								</div>#}
+							</div>
+						</div>
+                    {% endif %}
+				</div>
+			</div>
+		</div>
+
+		<div  id="modal_reviews"  class="modal reviews_page " tabindex="-1" role="dialog">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+
+					<div class="modal-body">
+						<div class="form_reviews">
+
+							<form id="js-feedback" action="" class="reviews_send">
+								<div class="head_form">{#Оставьте ваш отзыв#}{{ this.params.your_feedback }}
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								<div class="user_rating" data-star="5">
+									<div class="head">{#Ваша оценка#}{{ this.params.your_mark }}:</div>
+									<div class="rating_value"></div>
+								</div>
+
+								<input class="product_id" name="product_id"
+									   type="hidden"
+
+
+									   value="{{ product.id }}" >
+								<input id="name" name="name" type="text" class="name" placeholder="{#Ваше имя#}{{ this.params.your_name }}" value="{{ app.user.identity.username }}" required>
+								<input id="email" name="email" type="email" class="name" placeholder="{#Ваше имя#}email" value="{{ app.user.identity.email }}" required>
+								<textarea name="text" type="text" class="msg_reviews" placeholder="{#Текст отзыва#}{{ this.params.your_messages }}" required></textarea>
+                                {#<div class="img">
+                                    <img src="/img/reviews_3.png" alt="">
+                                </div>#}
+
+								<button type="submit" class="send_msg">{{ this.params.send_feedback }}</button>
+								<span class="js-feedback-success"></span>
+							</form>
+
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+        
+	</div>
+
+</section>

@@ -1,0 +1,150 @@
+<div class="breadcrumbs_about-us_page">
+    <div class="container">
+        <ul class="bread_list" itemscope itemtype="https://schema.org/BreadcrumbList">
+            <li class="item" itemprop="itemListElement" itemscope
+			    itemtype="http://schema.org/ListItem">
+                <a itemprop="item" href="{{ Url.home() }}" class="link"><span itemprop="name" >{{ this.params.main }}</span></a>
+				<meta itemprop="position" content="1" />
+            </li>
+            <li class="item">
+                <span> / </span>
+            </li>
+            <li class="item" itemprop="itemListElement" itemscope
+			    itemtype="http://schema.org/ListItem">
+				<a itemprop="item"  class="link" ><span itemprop="name">{{ page.info.title }}</span></a>
+				<meta itemprop="position" content="2" />
+            </li>
+
+        </ul>
+    </div>
+
+</div>
+<section class="about-us_page">
+    <div class="container">
+        <h1 class="head_section">
+        {{ Seo.get('h1') }}
+        </h1>
+
+        {#<div class="delivery_form js-form-delivery">
+            <input class="form__input" type="text" name="address" placeholder="{{ this.params.input_your_address }}" id="address-input" autocomplete="off">
+            <div class="form__note" id="js-delivery-price"></div>
+        </div>
+
+        <div id="map" class="delivery_map">
+            <script src="https://maps.googleapis.com/maps/api/js?libraries=geometry,places&amp;key=AIzaSyCbR8xpKsCCuj-3AZ9oHMHat8vR621poH0"></script>
+            <script>
+                var map;
+                var marker;
+                var polygon, polygon2;
+                var bounds;
+                window.onload = initMap;
+                function initMap() {
+                    map = new google.maps.Map(document.getElementById('map'), {
+                        center: center,
+                        zoom: 11,
+                        scaleControl: true
+                    });
+                    bounds = new google.maps.LatLngBounds();
+                    google.maps.event.addListenerOnce(map, 'tilesloaded', function(evt) {
+                        bounds = map.getBounds();
+                    });
+                    marker = new google.maps.Marker({
+                        position: center
+                    });
+                    polygon = new google.maps.Polygon({
+                        path: area,
+                        geodesic: true,
+                        strokeColor: '#2e9b05',
+                        strokeOpacity: 1.0,
+                        strokeWeight: 2,
+                        fillColor: '#2e9b05',
+                        fillOpacity: 0.35
+                    });
+
+                    polygon2 = new google.maps.Polygon({
+                        path: area2,
+                        geodesic: true,
+                        strokeColor: '#8e6917',
+                        strokeOpacity: 1.0,
+                        strokeWeight: 2,
+                        fillColor: '#8e6917',
+                        fillOpacity: 0.35
+                    });
+
+                    polygon.setMap(map);
+                    polygon2.setMap(map);
+
+                    var infowindow = new google.maps.InfoWindow({
+                        content: "{{ this.params.delivey }}"+" {{ delivery_cost.price_3 }} UAH",
+                        position: {lat: 50.491519, lng: 30.49942}
+                    });
+
+                    var infowindow2 = new google.maps.InfoWindow({
+                        content: "{{ this.params.delivey }}"+" {{ delivery_cost.price_1 }} UAH",
+                        position: center
+                    });
+
+                    polygon.addListener('click', function () {
+                        infowindow.open(map, polygon);
+                        infowindow2.close();
+                        $('#js-delivery-price').text('');
+                    });
+                    polygon2.addListener('click', function () {
+                        infowindow2.open(map, polygon);
+                        infowindow.close();
+                        $('#js-delivery-price').text('');
+                    });
+
+                    var input = /** @type {!HTMLInputElement} */(document.getElementById('address-input'));
+                    var types = document.getElementById('type-selector');
+                    var options = {
+                        componentRestrictions: {country: 'ua'}
+                    };
+                    var autocomplete = new google.maps.places.Autocomplete(input,options);
+                    autocomplete.addListener('place_changed', function() {
+                        marker.setMap(null);
+                        var place = autocomplete.getPlace();
+                        var newBounds = new google.maps.LatLngBounds();
+                        newBounds = bounds;
+                        if (!place.geometry) {
+                            $('#js-delivery-price').text('Выберите значение из выпадающего списка');
+                            return;
+                        };
+                        marker.setPosition(place.geometry.location);
+                        marker.setMap(map);
+                        newBounds.extend(place.geometry.location);
+                        map.fitBounds(newBounds);
+                        if (google.maps.geometry.poly.containsLocation(place.geometry.location, polygon) &&
+                            google.maps.geometry.poly.containsLocation(place.geometry.location, polygon2)){
+                            $('#js-delivery-price').text("{{ this.params.delivey }}"+" {{ delivery_cost.price_1 }} {{ this.params.grn }}");
+                        }
+                        else if (google.maps.geometry.poly.containsLocation(place.geometry.location, polygon)){
+                            $('#js-delivery-price').text("{{ this.params.delivey }}"+" {{ delivery_cost.price_3 }} {{ this.params.grn }}");
+                        }
+
+                        else {
+                            $('#js-delivery-price').text('{{ this.params.address_away }}');
+                        }
+
+                    });
+                }
+
+                var center = new google.maps.LatLng(50.458071,30.5205);
+                var area= [
+                    {lat: 50.516919, lng: 30.49942},{lat: 50.514736, lng: 30.482941},{lat: 50.509933, lng: 30.467148},{lat: 50.501199, lng: 30.447235},{lat: 50.490716, lng: 30.429382},{lat: 50.476735, lng: 30.413589},{lat: 50.467995, lng: 30.399857},{lat: 50.462312, lng: 30.38681},{lat: 50.456193, lng: 30.367584},{lat: 50.453569, lng: 30.345612},{lat: 50.450946, lng: 30.329132},{lat: 50.445262, lng: 30.318146},{lat: 50.435204, lng: 30.311966},{lat: 50.415519, lng: 30.323639},{lat: 50.406329, lng: 30.334625},{lat: 50.397138, lng: 30.342865},{lat: 50.387508, lng: 30.349045},{lat: 50.381378, lng: 30.362778},{lat: 50.375686, lng: 30.377884},{lat: 50.37262, lng: 30.402603},{lat: 50.370212, lng: 30.420456},{lat: 50.365613, lng: 30.425949},{lat: 50.359918, lng: 30.449295},{lat: 50.358166, lng: 30.469208},{lat: 50.355976, lng: 30.491867},{lat: 50.356852, lng: 30.51178},{lat: 50.362985, lng: 30.534439},{lat: 50.37481, lng: 30.583191},{lat: 50.385319, lng: 30.602417},{lat: 50.394074, lng: 30.627136},{lat: 50.399327, lng: 30.647736},{lat: 50.407642, lng: 30.659409},{lat: 50.415956, lng: 30.675201},{lat: 50.427768, lng: 30.680695},{lat: 50.439577, lng: 30.675201},{lat: 50.451383, lng: 30.666962},{lat: 50.45969, lng: 30.652542},{lat: 50.46712, lng: 30.636063},{lat: 50.471491, lng: 30.61409},{lat: 50.475861, lng: 30.600357},{lat: 50.480231, lng: 30.583878},{lat: 50.476735, lng: 30.563278},{lat: 50.479357, lng: 30.537186},{lat: 50.488532, lng: 30.523453},{lat: 50.499889, lng: 30.51178},{lat: 50.509497, lng: 30.50972 }
+                ];
+
+
+                var area2= [
+                    {lat: 50.475424, lng: 30.522079},{lat: 50.468432, lng: 30.530319},{lat: 50.461438, lng: 30.537872},{lat: 50.456193, lng: 30.546799},{lat: 50.451383, lng: 30.560532},{lat: 50.448323, lng: 30.577698},{lat: 50.446574, lng: 30.594864},{lat: 50.444388, lng: 30.60791},{lat: 50.43914, lng: 30.613403},{lat: 50.428206, lng: 30.617523},{lat: 50.417269, lng: 30.612717},{lat: 50.412018, lng: 30.596924},{lat: 50.408518, lng: 30.580444},{lat: 50.405892, lng: 30.570831},{lat: 50.396263, lng: 30.557785},{lat: 50.39101, lng: 30.544739},{lat: 50.386632, lng: 30.528946},{lat: 50.38707, lng: 30.51384},{lat: 50.389697, lng: 30.500107},{lat: 50.393199, lng: 30.485687},{lat: 50.398889, lng: 30.474701},{lat: 50.406767, lng: 30.461655},{lat: 50.413331, lng: 30.451355},{lat: 50.422081, lng: 30.443115},{lat: 50.434767, lng: 30.435562},{lat: 50.444825, lng: 30.432129},{lat: 50.455318, lng: 30.437622},{lat: 50.463187, lng: 30.447922},{lat: 50.468432, lng: 30.460968},{lat: 50.476298, lng: 30.470581},{lat: 50.481104, lng: 30.480881},{lat: 50.481541, lng: 30.498047},{lat: 50.479794, lng: 30.511093 }
+                ];
+            </script>
+
+        </div>#}
+
+
+        <div class="txt_box">
+           {{ page.info.text|raw }}
+            </div>
+    </div>
+</section>

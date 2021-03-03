@@ -1,0 +1,49 @@
+
+<section class="personal_account_page">
+    <div class="container">
+        <div class="account_box">
+            <div class="nav">
+                <ul class="list_menu">
+                    <li class="item">
+                        <div class="icon"><i class="fas fa-user"></i></div>
+                        <a href="{{ Url.toRoute('/user/index') }}" class="link">{#Личные данные#}{{ this.params.your_data }}</a>
+                    </li>
+
+                    <li class="item">
+                        <div class="icon"><i class="fas fa-list"></i></div>
+                        <a href="{{ Url.toRoute('/user/orders') }}" class="link">{#История заказов#}{{ this.params.history_orders }}</a>
+                    </li>
+                    
+                    <li class="item">
+                        <div class="icon"><i class="fas fa-list"></i></div>
+                        <a href="{{ Url.toRoute('/user/bonus') }}" class="link">{#Бонусы#}{{ this.params.bonuses }}</a>
+                    </li>
+
+                    <!-- <li class="item">
+                        <div class="icon"><i class="fas fa-question-circle"></i></div>
+                        <a href="{{ Url.toRoute('/user/question') }}" class="link">{#Задать вопрос#}{{ this.params.question }}</a>
+                    </li> -->
+                    
+                    <li class="item active">
+                        <div class="icon"><i class="fas fa-question-circle"></i></div>
+                        <a href="{{ Url.toRoute('/user/rules') }}" class="link">{#Правила накопления и использования бонусов#}{{ this.params.skRules }}</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="content_personal_account">
+                <div class="sk-1-head" style="width: 100%;">{# {{ this.params.bonus_banner|raw }} #}</div>
+                <div class="head">{#Правила накопления и использования бонусов#}{{ this.params.skRules }}</div>
+                <div class="form_box">
+   
+  
+                    {{ settings_desc|raw }} 
+ 
+      
+        
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</section>

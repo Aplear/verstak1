@@ -1,0 +1,642 @@
+{{ use('frontend/assets/AppAsset') }}{{ use('frontend/widgets/HeadMenu')}}{{ use('frontend/widgets/FooterMenu') }}{{ use('frontend/widgets/Catalog') }}{{ use('frontend/widgets/Sklanguri') }}{{ use('frontend/widgets/SmBasketProduct') }}{{ use('frontend/widgets/Newsmbask') }}{{ use('yii/authclient/widgets/AuthChoice') }}{{ register_app_asset(this) }}{{ this.beginPage }}<!DOCTYPE html>
+<html  lang="{{ app.language }}">
+<head>
+	
+<meta charset="{{ app.charset }}">
+{{ html.csrfMetaTags | raw }}
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1">
+<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+<title>{{ html.decode(Seo.get('title')) }}</title>
+<meta name="description" content="{{ html.decode(Seo.get('description')) }}">
+<meta property="og:title" content="{{ html.decode(Seo.get('title')) }}" />
+<meta property="og:description" content="{{ html.decode(Seo.get('description')) }}" />
+<meta property="og:locale" content="{{ app.language }}" />
+<meta property="og:image" content="{{ html.decode(Seo.get('og_image')) }}" />
+<meta property="og:type" content="{{ html.decode(Seo.get('og_type')) }}" />
+<meta name="it-rating" content="it-rat-3834658a64c3452649c19b118e4ebf92" />
+
+<script>function gtminit(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+};window.addEventListener('load',function(){setTimeout(function(){gtminit(window,document,'script','dataLayer','GTM-5R7VLG9');}, 5000);});</script>
+
+{{  this.head  }}
+<link rel="stylesheet" type="text/css" href="/css/scrollup.css">
+<link rel="stylesheet" type="text/css" href="/css/collapse.css">
+<link rel="stylesheet" type="text/css" href="/slick/slick.css">
+<link rel="stylesheet" type="text/css" href="/slick/slick-theme.css">
+<link rel="stylesheet" type="text/css" href="/carousels/lib/css/sliderkit-core.css">
+<link rel="stylesheet" type="text/css" href="/css/fonts.css">
+
+
+
+
+
+
+
+
+{% if Url.current() == '/backet' or Url.current() == '/ru/backet' or Url.current() == '/en/backet' %}
+	<link rel="stylesheet" type="text/css" href="/css/datepicker.min.css"/>
+	<link rel="stylesheet" type="text/css" href="/css/jquery.timepicker.css"/>
+{% endif %}
+
+{#	<link rel="stylesheet" type="text/css" href="/carousels/lib/css/sliderkit-core.css" />#}
+{#<link rel="stylesheet" type="text/css" href="/carousels/lib/css/sliderkit-demos.css" />#}
+
+{{ sklanguri_widget() }}
+	
+
+
+</head>
+<body>
+
+
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5R7VLG9"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+{{ this.beginBody }}
+
+<script>
+	// detect ie
+    var ua = window.navigator.userAgent;
+    if (ua.indexOf('MSIE ') > 0 || ua.indexOf('Trident/') > 0 || ua.indexOf('Edge/') > 0) {
+        document.querySelector('body').className += ' ie';
+    }
+</script>
+
+
+
+
+<div id="header" class="header-content">
+	<header class="header container is__rellative" id="headers">
+
+		<ul class="phone_number">
+			<li><img data-pagespeed-no-transform onload="" alt="stationary" src="/img/header/phone-stationary.png"><span class="phone_image"></span><a href="tel:0444533333" class="phone_number">{{ this.params.phone_header|raw }}</a>
+				<ul>
+					<li><a href="tel:0932884333"><img data-pagespeed-no-transform onload="" alt="life" src="/img/header/phone-life.png"><span class="phone_number"><span class="code">(093)</span> 288-43-33</span></a></li>
+					<li><a href="tel:0978984333"><img data-pagespeed-no-transform onload="" alt="kyivstar" src="/img/header/phone-kyivstar.png"><span class="phone_number"><span class="code">(097)</span> 898-43-33</span></a></li>
+					<li><a href="tel:0660784333"><img data-pagespeed-no-transform onload="" alt="mts" src="/img/header/phone-mts.png"><span class="phone_number"><span class="code">(066)</span> 078-43-33</span></a></li>
+				</ul>
+			</li>
+		</ul>
+
+
+		<div class="working-hours">
+			<a href="{{ Url.toRoute('/delivery') }}"><span class="icon"><span class="far fa-clock"></span></span> {{ this.params.timework }}{{ this.params.time_work }}</a>
+			<a href="{{ Url.toRoute('/delivery') }}">{{ this.params.time_delivery }}</a>
+		</div>
+
+		<ul class="b-lang__list">
+			{% for l in this.params.langs %}
+				<li class="b-lang__item"><a  href="{{ l.langUrl  }}" {% if l == this.params.lang %}class="active" data-lang="{{ l.url }}"{% endif %}>{{ l.local|slice(0,2)|upper}}</a></li>
+			{% endfor %}
+		</ul>
+
+		{% if app.user.isGuest %}
+			<ul class="header__login">
+		{% else %}
+			<ul class="header__login auth">
+		{% endif %}
+			{% if app.user.isGuest %}
+			<li>
+				<span class="icon_item"><span class="fas fa-user"></span></span><span>{{ this.params.login }}</span>
+				<ul class="content_mob">
+					<li class="modal_link" data-toggle="modal" data-target="#myModal_2">{{ this.params.login }}</li>
+					<li class="txt_user">{{ this.params.or_text }}</li>
+					<li class="modal_link" data-toggle="modal" data-target="#myModal_1">{{ this.params.registration }}</li>
+				</ul>
+			</li>
+			{% else %}
+			<li>
+				<span class="icon_item"><span class="fas fa-user"></span></span><span>{{ app.user.identity.username }}</span>
+				<ul class="content_mob">
+					<li class="link"><a href="{{ Url.toRoute('/user/index') }}" >{{ this.params.profile }}</a></li>
+					<li class="txt_user">{{ this.params.or_text }}</li>
+					<li class="link"><a href="{{ Url.toRoute('/logout') }}" >{{ this.params.exit }}</a></li>
+				</ul>
+			</li>
+			{% endif %}
+		</ul>
+
+		<a href="{{ Url.home() }}" class="logo">
+			<img alt="logo" data-pagespeed-no-transform onload="" src="/images/logo/logo_wm.svg" width="220" class="no-text">
+			<img alt="logo" data-pagespeed-no-transform onload="" src="/images/logo/logo_w.svg" width="250" class="with-text">
+		</a>
+
+		{{ head_menu_widget({'mobile':false, 'split':false}) }}
+
+		<div class="cart-box sk_basket_show basket_info" id="skBesket">
+			<span class="icon_item"><i class="fas fa-shopping-basket"></i></span>
+			<div class="price my_price">
+				<span class="js-backet-price">{{ this.params.cost }}</span> <span>{{ this.params.grn }}</span></div>
+			<div class="count "><span class="js-backet-count">{{ this.params.cart_count }}</span> <span>{{ this.params.count_tovar }}</span></div>
+			<div style="clear: both;"></div>
+			<div class="shk" id="skbac" {% if this.params.cart_count == 0 %} style="display: none;"{% endif %}>
+				<div class="basket_info_all">
+
+					<div class="scroll_box mod">
+						<div class="basket_box">
+
+							<div class="content_basket">
+								<div class="content_personal_account">
+									<div class="content_personal_account_sk">
+										{% for param in this.params.cart_info %}
+											<div class="item_basket js-remove-from-backet-{{ param.id }}">
+												<ul class="item_basket_list">
+													<li class="item">
+														<a href="{{ param.url }}" class="link_item">
+															<span class="img"><img data-pagespeed-no-transform onload="" src="{{ param.simg }}" alt=""></span>
+															<span class="txt">{{ param.title }}</span>
+														</a>
+													</li>
+													<li class="item">{{ param.weight }} {{param.type}} {{ param.weight2 }}</li>
+													<li class="item">{{ param.price }} {{ this.params.grn }}</li>
+													<li class="item">
+														<div class="b-product__qty">
+															<span  data-id="{{ param.id }}" class="js-qty-minus js-change-count"><i class="fas fa-minus-circle"></i></span>
+															<input type="text" name="count" data-price="800" class="js-qty-input js-count-requst-{{ param.id }}" value="{{ param.count_order }}" disabled>
+															<span data-id="{{ param.id }}" class="js-qty-plus js-change-count"><i class="fas fa-plus-circle"></i></span>
+														</div>
+													</li>
+													<li class="item "><span class="js-change-price-{{ param.id }}">{{ param.full_price }}</span> {{ this.params.grn }}</li>
+													<li class="item js-delete-from-backet" data-id="{{ param.id }}"><i class="fa fa-times" aria-hidden="true"></i></li>
+												</ul>
+											</div>
+										{% endfor %}
+									</div>
+{#									<div class="skdop_minibsket">#}
+{#										<div class="skdop_minibsket_title sk-b2">{{ this.params.skSS2 }}</div>#}
+{#										{{ Newsmbask_widget({'type':2}) }}#}
+{#									</div>#}
+
+
+									<div class="skdop_minibsket_backet_all">{{ this.params.all_order_price }}: <span>{{ this.params.cost }}</span>{{ this.params.grn }}</div>
+									<div class="skdop_minibsket_backet skdop_minibsket_backet_left">
+										<a href="#" class="btn_checkout sk-bask-del">{{ this.params.sk_bask_del }}</a>
+									</div>
+									<div class="skdop_minibsket_backet">
+										<a href="{{ Url.toRoute('/backet') }}" class="btn_checkout">{{ this.params.give_order }}</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+	</header>
+</div>
+
+<div id="gamburger-bt"> </div>
+<div class="b-mobile-nav js-mobile-nav" style="display: none;">
+
+		<div class="js-nav-toggle b-mobile-nav__toggle">
+				<span class="icon-nav">toggle menu</span>
+		</div>
+	<div class="b-mobile-nav__heading">
+
+	</div>
+	<div class="b-mobile-nav_wrapper js-scrollPane">
+		<ul class="b-mobile-nav__list">
+			{{ head_menu_widget({'mobile':true}) }}
+			<span class="title">{{ this.params.soc_s }}:</span>
+			<ul class="soc_list">
+			<li class="item">
+							<a href="{{ this.params.youtube_link }}" target="_blank" title="youtube"  class="link_item "  rel="nofollow" >
+								<span class="fab fa-youtube"></span>
+							</a>
+						</li>
+						<li class="item">
+							<a href="{{ this.params.facebook_link }}" target="_blank" title="facebook" class="link_item "  rel="nofollow" >
+								<span class="fab fa-facebook-f"></span>
+							</a>
+						</li>
+						<li class="item">
+							<a href="{{ this.params.instagramm_link }}" target="_blank" title="instagramm" class="link_item "  rel="nofollow" >
+								<span class="fab fa-instagram"></span>
+							</a>
+						</li>
+			</ul>
+		</ul>
+		<ul class="b-mobile-nav__list mob-phone">
+			<li><img data-pagespeed-no-transform onload=""  src="/img/header/phone-stationary.png"><a href="tel:{{ this.params.mobileph }}" class="phone_number">{{ this.params.phone_header|raw }}</a></li>
+			<li><a href="tel:0932884333"><img data-pagespeed-no-transform onload=""  src="/img/header/phone-life.png"><span class="phone_number"><span class="code">(093)</span> 288-43-33</span></a></li> 
+			<li><a href="tel:0978984333"><img data-pagespeed-no-transform onload=""  src="/img/header/phone-kyivstar.png"><span class="phone_number"><span class="code">(097)</span> 898-43-33</span></a></li> 
+			<li><a href="tel:0660784333"><img data-pagespeed-no-transform onload=""  src="/img/header/phone-mts.png"><span class="phone_number"><span class="code">(066)</span> 078-43-33</span></a></li> 
+		</ul>
+		<ul class="b-mobile-nav__list lang">
+			{% for l in this.params.langs %}
+				<li class="b-lang__item"><a  href="{{ l.langUrl  }}" {% if l == this.params.lang %}class="active" data-lang="{{ l.url }}"{% endif %}>{{ l.local|slice(0,2)|upper}}</a></li>
+			{% endfor %}
+		</ul>
+
+	</div>
+</div>
+<!-- /HEADER -->
+<div id="content">
+{{ content | raw }}
+</div>
+
+<link rel="preload" as="font" type="font/woff" crossorigin="anonymous" href="/font/Intro-Regular.woff">
+<link rel="preload" as="font" type="font/woff" crossorigin="anonymous" href="/font/Intro-Bold.woff">
+<link rel="preload" as="font" type="font/woff" crossorigin="anonymous" href="/font/Intro-Black.woff">
+<link rel="preload" as="font" type="font/woff" crossorigin="anonymous" href="/font/Violet.woff">
+<link rel="preload" as="style" type="text/css" crossorigin="anonymous" href="/css/fonts.css">
+<link rel="preload" as="script" type="text/javascript" crossorigin="anonymous" href="/js/main.min.js">
+<!-- FOOTER -->
+<footer class="footer">
+	<div class="container">
+		<div class="row">
+
+			<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+				<div class="block-1">
+					<a href="{{ Url.home() }}" ><img data-pagespeed-no-transform onload=""  src="/img/footer/logo-footer.png"  alt=""></a>
+					<div class="txt_block-1">{#Пекарня осетинских пирогов "ИРОН-КАБИС" - единственная в Киеве, где пекут настоящие осетинские пироги с пылу, с жару в дровяной печи.#} {{ this.params.text_footer }}</div>
+				</div>
+			</div>
+			{{ catalog_widget({'bottom':true}) }}
+			<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+				<div class="block-3">
+					<a style="color: black" href="{{ Url.toRoute('/contacts') }}" ><div class="title_block">{{ this.params.contacts }}</div></a>
+					{#<div class="address">#}{#Киев,  Верхний Вал, 66#}{{ this.params.addresss|raw }}{#</div>#}
+					<div class="phone">
+						<span class="title">{#Телефон#}{{ this.params.tel }}:</span>
+
+                            <div class="content_mob">
+						 <ul>
+					<li><img data-pagespeed-no-transform onload=""  src="/img/header/phone-stationary.png"><a href="tel:0444533333" class="phone_number">{{ this.params.phone_header|raw }}</a></li>
+					<li><a href="tel:0932884333"><img data-pagespeed-no-transform onload=""  src="/img/header/phone-life.png"><span class="phone_number"><span class="code">(093)</span> 288-43-33</span></a></li>
+					<li><a href="tel:0978984333"><img data-pagespeed-no-transform onload=""  src="/img/header/phone-kyivstar.png"><span class="phone_number"><span class="code">(097)</span> 898-43-33</span></a></li>
+					<li><a href="tel:0660784333"><img data-pagespeed-no-transform onload=""  src="/img/header/phone-mts.png"><span class="phone_number"><span class="code">(066)</span> 078-43-33</span></a></li>
+      					 </ul>
+							</div>
+
+					</div>
+					{% if this.params.phone_footer_2  %}
+					<div class="phone">
+						<span class="title">{{ this.params.phone }}:</span>
+						{#<span class="value">#}{#(044) 555 66 77#}{#{{ this.params.phone_2 }}</span>#}
+						{{ this.params.phone_footer_2|raw }}
+					</div>
+					{% endif %}
+					<div class="email">
+						<span class="title">E-mail:</span>
+						{#<span class="value">#}{{ this.params.email|raw }}{#</span>#}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="bottom_block">
+		<div class="container">
+			<div class="">
+				<div class="left_block">
+				   {# ПЕКАРНЯ «ИРОН — КАБИС»#}{#{{ this.params.name_of_company }}#}
+				</div>
+				<div class="right_block">
+				    <span class="title">{{ this.params.soc_s }}:</span>
+					<ul class="soc_list">
+						<li class="item">
+							<a href="{{ this.params.telegram_link }}" target="_blank" title="telegram"  class="link_item "  rel="nofollow" >
+								<span class="fab fa-telegram"></span>
+							</a>
+						</li>
+						<li class="item">
+							<a href="{{ this.params.youtube_link }}" target="_blank" title="youtube"  class="link_item "  rel="nofollow" >
+								<span class="fab fa-youtube"></span>
+							</a>
+						</li>
+						<li class="item">
+							<a href="{{ this.params.facebook_link }}" target="_blank" title="facebook" class="link_item "  rel="nofollow" >
+								<span class="fab fa-facebook-f"></span>
+							</a>
+						</li>
+						<li class="item">
+							<a href="{{ this.params.instagramm_link }}" target="_blank" title="instagramm" class="link_item "  rel="nofollow" >
+								<span class="fab fa-instagram"></span>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="left_block">
+										<span class="img_heart"><img data-pagespeed-no-transform onload="" src="/img/heart.png" alt="{{ this.params.with_love }}"></span>
+										<span class="txt"></span>{{ this.params.with_love }}
+									</div>
+			</div>
+		</div>
+	</div>
+	<div class="footer-seo-studio">
+			<div class="container">
+				<span class="txt">© 2021 {{ this.params.name_of_company }} - <a href="https://digitalfamily.com.ua/" target="_blank" >Digital family</a></span>
+			</div>
+	</div>
+
+
+
+<!--     <div class="skNy-3"></div> -->
+</footer>
+
+<!-- /FOOTER -->
+<div id="modal_1_success"  style="z-index: 1000000;" class="modal fade myModal_ok">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button class="close" type="button" data-dismiss="modal">×</button>
+				<span class="js-successs"></span>
+			</div>
+			<div class="modal-body">
+				<button  class="btn_ok" data-dismiss="modal">ok</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="modal_success"  class="modal fade myModal_link">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button class="close" type="button" data-dismiss="modal">×</button>
+				Товар добавлен
+			</div>
+			<div class="modal-body">
+					<a href="{{ Url.toRoute('/backet') }}" class="btn_link">Перейти в корзину</a>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="myModal" class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button class="close" type="button" data-dismiss="modal">×</button>
+				{#Обратный звонок#}{{ this.params.callback }}
+			</div>
+			<div class="modal-body">
+				<form id="js-callback" class="call_back">
+					<input type="text" id="name_callback" name="name" class="name_callback" required placeholder="{{ this.params.your_name }}"/>
+					<input type="text" id="phone_callback" name="phone" class="phone_callback" required placeholder="{{ this.params.phone }}"/>
+					<button type="submit" class="btn_send">{{ this.params.send }}</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="contacts_page" class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button class="close" type="button" data-dismiss="modal">×</button>
+				{{ this.params.backs }}
+			</div>
+			<div class="modal-body">
+				<form id="js-mail" class="call_back">
+				    <input type="text" id="username" class="name_callback" name="username" required placeholder="{{ this.params.your_name }}"/>
+					{#<input type="text" id="phone" class="phone_callback" name="phone" required placeholder="{{ this.params.phone }}"/>#}
+					<input type="email" id="email_contact" name="email" class="name_callback" required placeholder="email"/>
+					<textarea type="text" id="text_contact" name="text" class="msg_contacts"  required /></textarea>
+					<button type="submit" class="btn_send">{{ this.params.send }}</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="myModal_1" class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button class="close" type="button" data-dismiss="modal">×</button>
+				{{ this.params.registration }}
+			</div>
+			<div class="modal-body">
+				<form id="sign-up" class="call_back">
+					<input type="text" id="username" class="name_callback" name="username" required placeholder="{{ this.params.your_name }}"/>
+					<input type="text" id="phone" class="phone_callback" name="phone" required placeholder="{{ this.params.phone }}"/>
+					<input type="text" id="email" class="email_callback" name="email" required placeholder="e-mail"/>
+					<input type="password" id="password" class="password_callback" name="password" required  placeholder="{{ this.params.password }}"/>
+					<input type="password" id="password_repick" class="password_callback" name="password_repick" required placeholder="{{ this.params.password }}"/>
+
+					<button type="submit" class="btn_send">{#Зарегистрироваться#}{{ this.params.registration }}</button>
+					<span class="js-registration-answer"></span>
+					<p style="text-align: center">{{ this.params.enter_soc }}</p>
+					{{ AuthChoice_widget({ 'baseAuthUrl': ['soc/auth'], 'popupMode': false }) }}
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="myModal_2" class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button class="close" type="button" data-dismiss="modal">×</button>
+				{{ this.params.login }}
+			</div>
+			<div class="modal-body">
+				<form id="sign-in" class="call_back">
+					<input type="text"  name="email" class="email_callback" required placeholder=" e-mail"/>
+					<input type="password"  name="password" class="password_callback" required  placeholder="{{ this.params.password }}"/>
+					<button type="submit" class="btn_send">{{ this.params.login }}</button>
+					<p style="text-align: center">{{ this.params.enter_soc }}</p>
+					{{ AuthChoice_widget({ 'baseAuthUrl': ['soc/auth'], 'popupMode': false }) }}
+					<a href="/refresh-password">{{ this.params.remove_password }} </a>
+					<span class="js-answer-status"></span>
+				</form>
+
+			</div>
+
+		</div>
+	</div>
+</div>
+
+
+
+
+{{ this.endBody }}
+
+<a href="#" class="scrollup lazy-img-in-bg" data-bachground="/img/icon_top.png"></a>
+
+<script type="text/javascript" src="/js/main.min.js"></script>
+<script>
+	setTimeout(function() {
+		$(".js--bxSlider_1 a").length > 1 && $(".js--bxSlider_1").bxSlider({
+		    auto: !0,
+		    pager: !0,
+		    controls: !0,
+		    pagerType: "full",
+		    nextSelector: ".slider-next",
+		    prevSelector: ".slider-prev",
+		    nextText: "",
+		    prevText: "",
+		    marginSlides: 20,
+		    pause: 7e3
+		});
+	}, 100);
+</script>
+
+<script>
+setTimeout(function() {
+	/*$("#menu_el .lazy-img-in-bg").each(function(){
+		var e=$(this).attr("data-bachground");
+		$(this).css({background:"url('"+e+"')","background-position":"center center","background-size":"auto 100%","background-repeat":"no-repeat"})
+	});*/
+	
+}, 100);
+</script>
+<script>
+window.addEventListener("load", function(){
+	setTimeout(function() {
+		$(".section_goods .row > div:nth-of-type(-n+3) .lazy-img-in-bg").each(function(){
+			var e=$(this).attr("data-bachground");
+			$(this).css({background:"url('"+e+"')","background-position":"center center","background-size":"auto 100%","background-repeat":"no-repeat"})
+		});
+		
+	}, 200);
+});
+</script>
+
+<script>
+window.addEventListener("load", function(){
+	setTimeout(function(){
+		$("#content section [data-src]").each(
+			function(){
+				if(!$(this).attr("src")){
+					var e=$(this).attr("data-src");
+					var s=$(this).attr("data-srcset");
+					$(this).attr("src",e);
+					$(this).attr("srcset",s);
+				}
+			}
+		);
+		$("#content div [data-src]").each(
+			function(){
+				if(!$(this).attr("src")){
+					var e=$(this).attr("data-src");
+					var s=$(this).attr("data-srcset");
+					$(this).attr("src",e);
+					$(this).attr("srcset",s);
+				}
+			}
+		);
+		$(".lazy-img-in-bg").each(
+			function(){
+				var e=$(this).attr("data-bachground");
+				$(this).css({background:"url('"+e+"')","background-position":"center center","background-size":"auto 100%","background-repeat":"no-repeat"})
+			}
+		);
+		$(".lazy-img-in-bg-snow").each(
+			function(){
+				var e=$(this).attr("data-bachground");
+				$(this).css({background:"url('"+e+"')"})
+			}
+		);
+	}, 1500);
+});
+</script>
+
+
+<script>
+	function toggleHeader(){
+		var e=$(document).scrollTop();
+		e>42?($("body").addClass("scroll-padding"),
+		$("#header").addClass("header_min")):($("body").removeClass("scroll-padding"),
+		$("#header").removeClass("header_min"))
+	}
+	function fixMenuEl(e){
+		const o=$("#menu_el"),
+		n=$(document).scrollTop();
+		parseInt(n),parseInt(3);
+		e>=n+3?(o.removeClass("menu-position-fix"),
+		$("body").removeClass("menu-scroll-padding"),
+		$("#header").removeClass("shader-off")):(o.addClass("menu-position-fix"),
+		$("body").addClass("menu-scroll-padding"),
+		$("#header").addClass("shader-off"))
+	}
+		window.addEventListener("load", function(){
+		$(document).scroll(function(){toggleHeader()});
+		const elTop=$("#menu_el").get(0).offsetTop-90;
+		$(document).scroll(function(){fixMenuEl(elTop)});
+		});
+		
+
+
+	var h = $(window).width()/3.428571428571429;
+	$(".bxSlider_section_1").css("height",h+10);
+	$(".js--bxSlider_1").css("height",h);
+	// console.log( h );
+
+</script>
+
+
+
+
+
+
+
+{% if this.params.edit_script %}
+	{{ this.params.script|raw }}
+{% endif %}
+
+{% if Url.current() == '/backet' or Url.current() == '/ru/backet' or Url.current() == '/en/backet' %}
+	<script src="/js/datepicker/datepicker.js?v=20"></script>
+	<script src="/js/jquery.timepicker.js?v=20"></script>
+{% endif %}
+
+
+
+<script>
+
+function loadJs(url) {
+    var script = document.createElement('script');
+    script.src = url;
+    script.async = false;
+    document.documentElement.firstChild.appendChild(script);
+}
+window.addEventListener('DOMContentLoaded', function() {
+
+
+
+});
+
+window.addEventListener('load', function() {
+
+	setTimeout(function(){
+		loadJs("/js/owl.carousel.js");
+		loadJs("/js/click-carousel.js");
+		loadJs("/js/script.min.js");
+	},1000);
+
+setTimeout(function(){$('#menu_el').css('visibility', 'visible'); $('#menu_el').css('opacity', '1');},1200);
+	
+	setTimeout(function(){
+		loadJs("/js/scrollup.js");
+		loadJs("/slick/slick.min.js");
+		loadJs("/js/collapse.js");
+		loadJs("/js/jquery.maskedinput.min.js");
+		loadJs("/js/jquery.snow.js");
+		loadJs("/js/devbridgeautocomplete.js");
+		loadJs("/carousels/lib/js/jquery.easing.1.3.min.js");
+		loadJs("/carousels/lib/js/jquery.mousewheel.min.js");
+
+		loadJs("/js/font-all.js");		
+	},3000);
+	
+	
+
+	
+	setTimeout(function(){
+		0===location.pathname.indexOf("/ru")?window.BinotelGetCallSettings={language:"ru"}:0===location.pathname.indexOf("/en")&&(window.BinotelGetCallSettings={language:"en"}),function(e,t,n){var a=e.createElement(n);a.type="text/javascript",a.async=!0,a.src="//widgets.binotel.com/getcall/widgets/ixj0sbvajwwsfzvx2tka.js";var i=e.getElementsByTagName(n)[0];i.parentNode.insertBefore(a,i)}(document,window,"script");
+	}, 4000);
+
+});
+</script>
+
+<style>
+.menu-scroll-padding .bx-controls{display:none;}
+</style>
+
+</body>
+</html>
+{{ this.endPage }}

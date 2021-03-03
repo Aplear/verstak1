@@ -1,0 +1,62 @@
+<div class="breadcrumbs_contacts_page">
+    <div class="container">
+        <ul class="bread_list" itemscope itemtype="https://schema.org/BreadcrumbList">
+            <li class="item" itemprop="itemListElement" itemscope
+			    itemtype="http://schema.org/ListItem">
+                <a itemprop="item" href="{{ Url.home() }}" class="link"><span itemprop="name" >{{ this.params.main }}</span></a>
+				<meta itemprop="position" content="1" />
+            </li>
+			
+            <li class="item">
+                <span> / </span>
+            </li>
+			
+            <li class="item" itemprop="itemListElement" itemscope
+			    itemtype="http://schema.org/ListItem">
+				<a itemprop="item" href="{{ Url.toRoute('/discounts') }}" class="link"><span itemprop="name" >{{ this.params.discounts }}</span></a>
+				<meta itemprop="position" content="2" />
+            </li>
+			
+            <li class="item">
+                <span> / </span>
+            </li>
+			
+            <li class="item" itemprop="itemListElement" itemscope
+			    itemtype="http://schema.org/ListItem">
+				<a itemprop="item"  class="link" ><span itemprop="name">{{ discount.info.title }}</span></a>
+				<meta itemprop="position" content="3" />
+            </li>
+
+        </ul>
+    </div>
+
+</div>
+
+
+<div class="delivery_page">
+    <div class="container">
+        <h1 class="head_section">
+            {{ discount.info.title }}
+        </h1>
+					<div class="col-lg-12" style="margin-bottom: 5%; text-align: center;">
+            <img  class="blog-img" src="{{ discount.imgpng }}">
+                    </div>
+        {{ discount.info.text|raw }}
+		
+		<div class="go_to_menu">
+                            <a href="{{ Url.home }}" class="link">
+                                {{ this.params.go_menu }}
+                            </a>
+                        </div>
+		
+        <div class="seo_txt">
+            
+            <div class="txt">
+                {{ Seo.get('text')|raw  }}
+            </div>
+        </div>
+    </div>
+
+
+
+</div>

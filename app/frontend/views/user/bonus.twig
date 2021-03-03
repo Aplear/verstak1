@@ -1,0 +1,151 @@
+
+<style>
+
+@media (max-width: 749px){
+.scroll_box .headNoMB2 .content_basket .item_basket .item_basket_list .item:nth-child(3) {
+    display: block;
+}
+}
+</style>
+<section class="personal_account_page">
+    <div class="container">
+        <div class="account_box">
+            <div class="nav">
+                <ul class="list_menu">
+                    <li class="item">
+                        <div class="icon"><i class="fas fa-user"></i></div>
+                        <a href="{{ Url.toRoute('/user/index') }}" class="link">{#Личные данные#}{{ this.params.your_data }}</a>
+                    </li>
+
+                    <li class="item">
+                        <div class="icon"><i class="fas fa-list"></i></div>
+                        <a href="{{ Url.toRoute('/user/orders') }}" class="link">{#История заказов#}{{ this.params.history_orders }}</a>
+                    </li>
+                    
+                    <li class="item active">
+                        <div class="icon"><i class="fas fa-list"></i></div>
+                        <a href="{{ Url.toRoute('/user/bonus') }}" class="link">{#Бонусы#}{{ this.params.bonuses }}</a>
+                    </li>
+
+                    <!-- <li class="item">
+                        <div class="icon"><i class="fas fa-question-circle"></i></div>
+                        <a href="{{ Url.toRoute('/user/question') }}" class="link">{#Задать вопрос#}{{ this.params.question }}</a>
+                    </li> -->
+                    
+                    <li class="item">
+                        <div class="icon"><i class="fas fa-question-circle"></i></div>
+                        <a href="{{ Url.toRoute('/user/rules') }}" class="link">{#Правила накопления и использования бонусов#}{{ this.params.skRules }}</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="content_personal_account">
+                <div class="headNoMB">{#Бонусы#}{{ this.params.bonuses }}</div>
+                <!-- <div class="headSk">{#Бонусы насчитаются через 24 часа#}{{ this.params.bonus24h }}: <img src="/images/bonus_ico.png" style="height: 35px;margin-top: -9px;" /> <span>{{ (app.user.identity.bonus_balans - availableBonuses) }}</span></div>
+                available_bonus--><div class="headSk">{#Доступно#}{{ this.params.bonus_all }}: <img src="/images/bonus_ico.png" style="height: 35px;margin-top: -9px;" /> <span>{{ availableBonuses }}</span></div>
+                <br />
+                
+                
+                <div class="form_box">
+   
+  
+                    <!-- {{this.params.bonusBeta}} -->
+ <!--
+ <div class="bonusBanner">
+ Баннер{{ this.params.bonus_banner|raw }}
+ </div>
+ -->
+{% if stats|length > 0 %}
+
+
+<div class="headNoMB">{#Бонусы#}{{ this.params.bonus_history }}</div>
+
+                    <div class="scroll_box">
+            <div class="basket_box headNoMB2">
+                <div class="head_basket">
+                    <ul class="head_basket_list">
+                        <li class="item">{#Товар#}{{ this.params.bonus_operation }}</li>
+                        
+                        <li class="item"><!-- {#Причина#}{{ this.params.bonus_way }} --></li>
+                        
+                        <li class="item"><!--{#Изменение#}{{ this.params.bonus_stats }} -->{#Сумма#}{{ this.params.bAccrued }}</li>
+                        
+                        <li class="item">{#Сумма#}{{ this.params.bWrittenoff }}</li>
+                        <li class="item">{#Дата#}{{ this.params.bonus_date }}</li>
+                        <li class="item"> </li>
+                    </ul>
+                </div>
+                <div class="content_basket">
+            
+            {% for stat in stats %}
+                        <div class="item_basket js-remove-from-backet-{{ stat.id }}">
+                            <ul class="item_basket_list">
+                                <li class="item">
+                                    {%  if stat.operation == 'plus' %}
+                                        {#Зачисление#}{{ this.params.bonus_plus }} № 
+                                    {% else %}
+                                        {#Отчисление#}{{ this.params.bonus_minus }} № 
+                                    {% endif %}
+                                    {{ stat.id }}
+                                </li>
+                                 <li class="item">
+                                
+                                  <!--  {%  if stat.type == 'birthday' %}
+                                        {{ this.params.bonus_birthday }}
+                                    {% else %}
+                                        {{ this.params.order }} № {{ stat.order_id }}
+                                    {% endif %}
+                                 -->
+                                </li>
+                                {%  if stat.operation == 'plus' %}
+                                    <li class="item">
+                                        {{ stat.count }}
+                                    </li>
+                                    <li class="item"></li>
+                                {% else %}
+                                    <li class="item"></li>
+                                    <li class="item">
+                                        {{ stat.count }}
+                                    </li>
+                                {% endif %}
+                                <li class="item">{{ stat.date_operation|date('d.m.Y H:i') }}</li>
+                                <li class="item"> </li>
+                            </ul>
+                        </div>
+            {% endfor %}
+
+                </div>
+            </div>
+
+        </div>
+        {% endif %}
+        
+        
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</section>
+
+        <!-- <div class="sk-popup-all" id="sk-popup-all-id">
+            <div class="sk-popup">
+                {{this.params.bonusBeta}}
+                <div class="sk_close">x</div>
+            </div>
+        </div> -->
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script>
+            document.addEventListener("click", function(e) {
+               document.getElementById("sk-popup-all-id").hidden = true;
+            });
+    
+            $(document).ready(function($) {
+                $('.sk_close').on('click', function(){
+                    $("#sk-popup-all-id").hide();
+                });
+                $('.sk_close').click(function (e) {
+                    $("#sk-popup-all-id").hide();
+                });
+            });
+        </script>

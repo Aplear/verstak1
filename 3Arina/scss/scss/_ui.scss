@@ -1,0 +1,45 @@
+.btn {
+  padding: 6px 16px;
+  cursor: pointer;
+  border: 1px solid $color-info;
+  text-align: center;
+  transition-duration: $duration;
+  border-radius: 8px;
+  color: $white;
+  background-color: $color-info;
+  font-weight: 500;
+  box-shadow: $shadow;
+  &.btn-submit {
+    width: auto;
+    font-size: 14px;
+    line-height: 16px;
+    border-radius: 10px;
+    padding: 10px;
+    min-width: 1px;
+    color: $white;
+    @media (min-width: 768px) {
+      padding: 10px 55px;
+      font-size: 18px;
+      line-height: 21px;
+    }
+  }
+  &:hover {
+    background-color: $color-info-hover;
+  }
+}
+.circle {
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.desktop {
+  display: none!important;
+}
+@media (min-width: 768px) {
+  .desktop {
+    display: block!important;
+  }
+  .mobile {
+    display: none!important;
+  }
+}

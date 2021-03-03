@@ -1,0 +1,37 @@
+<div class="breadcrumbs_contacts_page">
+    <div class="container">
+        <ul class="bread_list" itemscope itemtype="https://schema.org/BreadcrumbList">
+            <li class="item" itemprop="itemListElement" itemscope
+			    itemtype="http://schema.org/ListItem">
+                <a itemprop="item" href="{{ Url.home() }}" class="link"><span itemprop="name" >{{ this.params.main }}</span></a>
+				<meta itemprop="position" content="1" />
+            </li>
+            <li class="item">
+                <span> / </span>
+            </li>
+            <li class="item" itemprop="itemListElement" itemscope
+			    itemtype="http://schema.org/ListItem">
+				<a itemprop="item"  class="link" ><span itemprop="name">{{ page.info.title }}</span></a>
+				<meta itemprop="position" content="2" />
+            </li>
+
+        </ul>
+    </div>
+
+</div>
+
+<section class="static_page">
+    <div class="container">
+        <div class="head_section">
+            <h1>{{ page.info.title }}</h1>
+        </div>
+
+        {{ page.info.text|raw }}
+        <div class="seo_txt">         
+
+            <div class="txt">
+                {{ Seo.get('text')|raw  }}
+            </div>
+        </div>
+    </div>
+</section>

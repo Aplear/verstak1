@@ -1,0 +1,131 @@
+
+<section class="personal_account_page">
+    <div class="container">
+<div class="account_box">
+
+
+<div class="nav">
+                <ul class="list_menu">
+                    <li class="item">
+                        <div class="icon"><i class="fas fa-user"></i></div>
+                        <a href="{{ Url.toRoute('/user/index') }}" class="link">{#Личные данные#}{{ this.params.your_data }}</a>
+                    </li>
+
+                    <li class="item active">
+                        <div class="icon"><i class="fas fa-list"></i></div>
+                        <a href="{{ Url.toRoute('/user/orders') }}" class="link">{#История заказов#}{{ this.params.history_orders }}</a>
+                    </li>
+                    
+                    <li class="item">
+                        <div class="icon"><i class="fas fa-list"></i></div>
+                        <a href="{{ Url.toRoute('/user/bonus') }}" class="link">{#Бонусы#}{{ this.params.bonuses }}</a>
+                    </li>
+
+                    <!-- <li class="item">
+                        <div class="icon"><i class="fas fa-question-circle"></i></div>
+                        <a href="{{ Url.toRoute('/user/question') }}" class="link">{#Задать вопрос#}{{ this.params.question }}</a>
+                    </li> -->
+                    
+                    <li class="item">
+                        <div class="icon"><i class="fas fa-question-circle"></i></div>
+                        <a href="{{ Url.toRoute('/user/rules') }}" class="link">{#Правила накопления и использования бонусов#}{{ this.params.skRules }}</a>
+                    </li>
+                </ul>
+            </div>
+            
+    <div class="content_personal_account">
+                <div class="head">{#Добро пожаловать#}{{ this.params.skOrders }}</span></div>
+                <div class="form_box">        
+            
+            
+        {% if count_orders > 0 %}
+        {% for order in orders %}
+        <div class="head_section">
+            <div class="skOrders" data-id="{{ order.id }}">{#Заказ#}{{ this.params.order }} № {{ order.id }},  {{ this.params.ot }} {{ order.creation_time|date("d.m.Y") }}</div>
+        </div>
+
+
+        <div class="scroll_box scroll_box_sk" style="display: none;" id="order_{{ order.id }}">
+            <div class="basket_box" style="display: inline-block;">
+                <div class="head_basket">
+                    <ul class="head_basket_list">
+                        <li class="item">{#Товар#}{{ this.params.tovar }}</li>
+                        <li class="item">{#Цена#}{{ this.params.sk_diametr }}</li>
+                        <li class="item">{#Цена#}{{ this.params.pricee }}</li>
+                        <li class="item">{#Количество#}{{ this.params.countt }}</li>
+                        <li class="item">{#Сумма#}{{ this.params.all_price }}</li>
+                        <li class="item"> </li>
+                    </ul>
+                </div>
+                <div class="content_basket">
+
+            {% for item in order.items %}
+                        <div class="item_basket js-remove-from-backet-{{ item.id }}">
+                            <ul class="item_basket_list">
+                                <li class="item">
+                                    <a href="{{ item.url }}" class="link_item">
+                                <span class="img">
+    {#
+                                    <img src="{{ item.simg }}" alt="">
+    #}
+                                </span>
+                                        <span class="txt">{{ item.param.parent.info.title }}</span>
+                                    </a>
+                                </li>
+                                <li class="item">{{ item.weight }} </li>
+                                <li class="item">{{ item.price }} {{ this.params.grn }}</li>
+                                <li class="item">
+                                    <div class="b-product__qty">
+                                        <input type="text" name="count" data-price="800" class="js-qty-input js-count-requst-{{ item.id }}" value="{{ item.count }}" disabled>
+                                    </div>
+                                </li>
+                                <li class="item "><span class="js-change-price-{{ item.id }}">{{ item.price_full }}</span> {{ this.params.grn }}</li>
+                                <li class="item js-delete-from-backet" data-id="{{ item.id }}"></li>
+                            </ul>
+                        </div>
+            {% endfor %}
+            
+                    <div class="item_basket js-remove-from-backet-444444444444">
+                    
+                                        <div class="itemSk">
+                                            {{ this.params.addressss }}: {{ order.address }}
+                                        </div>
+                                        {% if order.comment %}
+                                            <div class="itemSkC">
+                                                {{ this.params.comment_to_order }}: {{ order.comment }}
+                                            </div>
+                                        {% endif %}
+                                    <ul class="item_basket_list  item_basket_list_skNew">
+                                        <li class="item">
+                                            
+                                        </li>
+                                        <li class="item"></li>
+                                        <li class="item w000"></li>
+                                        <li class="item w111 m_sk_left">
+                                            {{ this.params.delivey }}:<br />
+                                            Оплачено бонусами: <br />
+                                            {{ this.params.itogo }}: 
+                                        </li>
+                                        <li class="item m_sk_right">
+                                        {{ order.delivery }}<br />
+                                        {{ order.bonus }}<br />
+                                        {{ order.total }} {{ this.params.grn }}</li>
+                                        <li class="item js-delete-from-backet"></li>
+                                    </ul>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="sk_no_order">{{this.params.skNotOrder}}</div>
+{% endif %}
+
+    </div>
+    
+    </div>
+    </div>
+    </div>
+</section>

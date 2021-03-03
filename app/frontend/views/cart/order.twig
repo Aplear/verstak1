@@ -1,0 +1,200 @@
+
+
+<section class="ordering_page">
+    <div class="container">
+        <div class="head_section">
+            {#Оформления заказа#}{#{{ this.params.order_offer }}#}
+        </div>
+
+        <div class="form_box">
+
+            <form action="" class="ordering_form" id="js-ordering_form">
+
+                <div class="item_form">
+{#
+                    <div class="small_head">#}
+{#Контактная информация#}{#
+{{ this.params.contact_info }}</div>
+#}
+
+                    <input type="text" class="txt_input name js-name" required placeholder="{{ this.params.your_name }}" {% if not(app.user.isGuest) %}value="{{ app.user.identity.username }}{% endif %}">
+                    <input type="tel" class="txt_input phone js-phone" required placeholder="{{ this.params.phone }}" {% if not(app.user.isGuest) %}value="{{ app.user.identity.phone }}{% endif %}">
+                    <input type="email" class="txt_input email js-email" required placeholder="e-mail" {% if not(app.user.isGuest) %}value="{{ app.user.identity.email }}{% endif %}">
+
+                    <div class="js-courier">
+                        <input type="text" class="txt_input address js-address" required  placeholder="{#Улица#}{{ this.params.address_to_delivery }}">
+                    <div class="form__note"></div>
+                    {#<input type="text" class="txt_input address js-build" required  placeholder="{{ this.params.dom }}" style="background-image: url('/img/header/home_input.png');">#}
+                    {#<input type="text" class="txt_input address js-parad" required  placeholder="{{ this.params.paraddd }}" >#}
+                    {#<input type="text" class="txt_input address js-floar" required  placeholder="{{ this.params.etag }}" >#}
+                    {#<input type="text" class="txt_input address js-kvartira" required  placeholder="{{ this.params.kvart }}" >#}
+                    {#<input type="text" class="txt_input address js-code_c"  required placeholder="{{ this.params.code_dv }}" >#}
+                    <input type="text" class="txt_input address js-time" required  placeholder="{{ this.params.vrema }}">
+                    {#<input type="text" class="txt_input address js-money" placeholder="{{ this.params.money }}" style="background-image: url('/img/header/money.png');">#}
+
+					</div>
+
+
+
+                </div>
+                <div class="item_form">
+                    <div class="small_head">{#Комментарий к заказу#}{{ this.params.comment_to_order }}</div>
+
+                    <textarea name="comment" type="text" class="comment js-comment"  placeholder="{#Введите ваши пожелания#}{{ this.params.wishes }}"></textarea>
+                </div>
+                <div class="item_form" id="pay">
+                    <div class="small_head">{#Способ оплаты#}{{ this.params.payment_type }}</div>
+
+                    <label class="custom_label cl_1">
+                        <input name="radio_payment js-pay" class="js-pay" type="radio" checked value="2" />
+                        <div class="my_input">
+                            <span class="check"></span>
+                            <span class="img_check"></span>
+                            <span class="txt_check">{#Наличыми курьеру#}{{ this.params.courier }}</span>
+                        </div>
+
+                    </label>
+
+                    <label class="custom_label cl_2">
+                        <input name="radio_payment js-pay" class="js-pay" type="radio" value="9"/>
+                        <div class="my_input">
+                            <span class="check"></span>
+                            <span class="img_check"></span>
+                            <span class="txt_check">{#Банковской картой#}{{ this.params.online_pay }} </span>
+                        </div>
+                    </label>
+
+                    <label class="custom_label cl_3">
+                        <input name="radio_payment js-pay" class="js-pay" type="radio"  value="10"/>
+                        <div class="my_input">
+                            <span class="check"></span>
+                            <span class="img_check"></span>
+                            <span class="txt_check">{#счет-фактура (для конрпоративных клиентов)#}{{ this.params.factura }}</span>
+                        </div>
+                    </label>
+
+                    <label class="custom_label cl_6">
+                        <input name="radio_payment js-pay" class="js-pay" type="radio" value="11"/>
+                        <div class="my_input">
+                            <span class="check"></span>
+                            <span class="img_check"></span>
+                            <span class="txt_check">{{ this.params.pay_internet }}</span>
+                        </div>
+                    </label>
+                </div>
+                {% if delivery_cost.on_delivery %}
+                <div style="" class="item_form">
+                    <div class="small_head">{#Способ доставки#}{{ this.params.delivery_type }}</div>
+
+                    <label class="custom_label cl_4">
+                        <input name="radio_delivery" class="js-delivery" type="radio" checked  value="1"/>
+                        <div class="my_input">
+                            <span class="check"></span>
+                            <span class="img_check"></span>
+                            <span class="txt_check">{#Курьером#}{{ this.params.one_courier }}</span>
+                        </div>
+                    </label>
+
+                    <label class="custom_label cl_5">
+                        <input name="radio_delivery" class="js-delivery" type="radio"  value="7"/>
+                        <div class="my_input">
+                            <span class="check"></span>
+                            <span class="img_check"></span>
+                            <span class="txt_check">Самовывоз c магазина</span>
+                        </div>
+                    </label>
+                </div>
+                {% endif %}
+
+
+               {# <div class="item_form">
+                    <div class="small_head">#}{#Информация о заказе#}{#{{ this.params.info_about_order }}</div>
+                    <div class="scroll_box">#}
+           {# <div class="basket_box">
+                <div class="head_basket">
+                    <ul class="head_basket_list">
+                        <li class="item">#}{#Товар#}{#{{ this.params.tovar }}</li>
+                        <li class="item">#}{#Вес#}{#{{ this.params.weight }}</li>
+                        <li class="item">#}{#Цена#}{#{{ this.params.pricee }}</li>
+                        <li class="item">#}{#Количество#}{#{{ this.params.countt }}</li>
+                        <li class="item">#}{#Сумма#}{#{{ this.params.all_price }}</li>
+                        <li class="item"> </li>
+                    </ul>
+                </div>
+                <div class="content_basket">
+                    {% for param in params %}
+
+                        <div class="item_basket js-remove-from-backet-{{ param.id }}">
+                            <ul class="item_basket_list">
+                                <li class="item">
+                                    <a href="{{ param.url }}" class="link_item">
+                            <span class="img">
+                                <img src="{{ param.simg }}" alt="">
+                            </span>
+                                        <span class="txt">{{ param.title }}</span>
+                                    </a>
+                                </li>
+                                <li class="item">{{ param.weight }} г</li>
+                                <li class="item">{{ param.price }} {{ this.params.grn }}</li>
+                                <li class="item">
+                                    <div class="b-product__qty">
+
+                                        <input type="text" name="count" data-price="800" class="js-qty-input js-count-requst-{{ param.id }}" value="{{ param.count_order }}" disabled>
+
+                                    </div>
+                                </li>
+                                <li class="item "><span class="js-change-price-{{ param.id }}">{{ param.full_price }}</span> {{ this.params.grn }}</li>
+                                <li class="item js-delete-from-backet" data-id="{{ param.id }}"></li>
+                            </ul>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>#}
+        {#</div>#}
+        <div class="buttons_group">
+
+            <div class="right_group"> 
+                {% if availableBonuses > 0 %}
+                    <div class="price_all 2">
+                        <span class="title">{{ this.params.bonus_pay }}:</span>
+                        <input type="number" id="pay_bonus" class="bonus js-bonus" style="padding-left: 10px;" name="bonus" min="0" max="{% if availableBonuses > this.params.cost %}{{ (this.params.cost + delivery_cost.price_1) }}{% else %}{{ availableBonuses }}{% endif %}" />
+                        
+                    </div>
+                {% endif %}
+                <div class="price_all 2">
+                    <span class="title">{{ this.params.itogo }}:</span>
+                    <span class="value ">{% if this.params.cost < delivery_cost.delivery_zero %}{% set x = this.params.cost + delivery_cost.price_1  %}{% set delivery = delivery_cost.price_1 %}
+                        {% else %}{% set x = this.params.cost   %}{% set delivery = 0 %}{% endif %}
+                        <span class="js-order-price"  data-delivery="{{ delivery }}" data-price="{{ x }}">{{ x }}</span>
+                        <input type="hidden" name="count" id="all_count" value="{{this.params.cost + delivery}}"/>
+                        <span>{{ this.params.grn }}</span></li>
+                    </span>
+                </div>
+                
+                <button type="submit" class="btn_checkout js-order-request ">{{ this.params.to_order }}</button>
+
+            </div>
+            <div class="left_group">
+                <div class="js-button-liqpay" style="display:none" ></div>
+                <div><span>{#Товаров на#}{{ this.params.zakaz_na }}: <span class="value"><span class="js-backet-price">{{ this.params.cost }}</span>                     <span>грн</span></li>
+                    </span></span></div>
+                {% if this.params.cost < delivery_cost.delivery_zero %} <div class="js-cost-delivery"><span>{#Стоимость доставки#}{{ this.params.delivery_cost }}: </span><span class="js-delivery-cost">{{ delivery_cost.price_1 }} {{ this.params.grn }} </span></div>{% endif %}
+            
+                {% if availableBonuses > 0 %}
+                     <div><span id="sk-b">{#Доступно бонусов#}{{ this.params.bonus_all }}: <span>{{ availableBonuses }}</span></span></div>
+                    <div><span>{#Можно оплатить бонусами#}{{ this.params.bonus_mp }}: 
+                    {% if availableBonuses > this.params.cost %}
+                        {{ this.params.cost }}
+                    {% else %}
+                        {{ availableBonuses }}
+                    {% endif %} {{ this.params.grn }}
+                    </span></div>
+                {% endif %}
+            </div>
+
+        </div>
+
+
+		</form>
+    </div>
+</section>

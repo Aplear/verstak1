@@ -1,0 +1,74 @@
+<div class="goods_item_page">
+                <div class="col-md-12 is__padding_right_0 is__padding_left_0">
+                    <div class="slider_goods_cart mod">
+                        <div class="js--bxSlider_8{{ type }}">
+                            {% for product in products2 %}
+                                <div class="bxSlider_2_item">
+                                    <div class="cart_goods_small">
+                                        <div class="name_cart"><a href="{{ product.url }}">{{ product.info.title }}</a></div>
+                                        <a href="{{ product.url }}"><div title="{{ product.info.title }} - 3piroga.com.ua" alt="{{ product.info.title }} - 3piroga.com.ua" class="img_cart" style="background-image: url('{{ product.bimg }}')"></div>
+                                            {% if stikers and product.stikers.0.stikers_id%}
+                                                {% for stiker in stikers %}
+                                                    {% if stiker.id == product.stikers.0.stikers_id %}
+                                                        <div class="block-stikers">
+                                                            <img class="stiker_recommend_basket_product" src='{{stiker.getImgPng(product.stikers.0.stikers_id) }}'>
+                                                        </div>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% endif %}
+                                        </a>
+                                        <div class="line_1">
+                                            <ul class="size_goods js-category-{{ product.id }}">
+                                                {% for params in product.params %}
+                                                    <li data-price="{{  params.price }}" data-id="{{ params.id  }}" class="item {% if loop.first %}active{% endif %}">
+                                                        <div class="circle_part js-change-price" data-price="{{ params.price }}" data-id="{{ product.id }}" >
+                                                            <div class="item_value">{{ params.values.value }}</div>
+                                                            <div class="item_txt">{{ params.nameValue.info.value }}</div>
+                                                        </div>
+
+                                                        {% if params.weights %}
+                                                            <div class="inline_part">
+                                                                {{ params.weights.value }}{{ this.params.gramm }}
+                                                            </div>
+                                                        {% endif %}
+
+                                                    </li>
+                                                {% endfor %}
+
+                                            </ul>
+                                            <div class="price cennt">
+                                                <span class="price_title">{{ this.params.price_text }}</span>
+                                                {% for params in product.params %}
+                                                    {% if loop.first %}
+                                                        {% set skNewPrice = params.price|split('.') %}
+                                                        <span class="count js-count-view-{{ product.id }}">{{ skNewPrice[0] }}{% if skNewPrice[1] %}<span class="skCents">{{ skNewPrice[1] }}</span>{% endif %}</span>
+                                                    {% endif %}
+                                                {% endfor %}
+                                                <span class="txt">{{ this.params.grn }}</span>
+                                            </div>
+                                        </div>
+                                        <div class="line_1">
+                                            <div class="b-product__qty">
+                                                <span class="js-qty-minus js-count-in-catalog" data-id="{{ product.id }}"><span class="fas fa-minus-circle"></span></span>
+                                                <input type="text" pattern="\d [1-9]" name="sk_go_{{ product.id }}" data-id="{{ product.id }}" class="js-qty-input js-count-add-{{ product.id }}" value="1">
+                                                <span class="js-qty-plus js-count-in-catalog" data-id="{{ product.id }}"><span class="fas fa-plus-circle"></span></span>
+                                            </div>
+
+                                            <div class="but_add">
+                                                <a href="" data-id="{{ product.id }}" class="js-add-to-cart">{#Добавить в коробку#}{{ this.params.add }}</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="slider_control_2">
+                            <div class="slider-prev_4"></div>
+                            <div class="slider-next_4"></div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>

@@ -1,0 +1,105 @@
+<div class="breadcrumbs_contacts_page">
+    <div class="container">
+        <ul class="bread_list" itemscope itemtype="https://schema.org/BreadcrumbList">
+            <li class="item" itemprop="itemListElement" itemscope
+			    itemtype="http://schema.org/ListItem">
+                <a itemprop="item" href="{{ Url.home() }}" class="link"><span itemprop="name" >{{ this.params.main }}</span></a>
+				<meta itemprop="position" content="1" />
+            </li>
+            <li class="item">
+                <span> / </span>
+            </li>
+            <li class="item" itemprop="itemListElement" itemscope
+			    itemtype="http://schema.org/ListItem">
+				<a itemprop="item"  class="link" ><span itemprop="name">{{ page.info.title }}</span></a>
+				<meta itemprop="position" content="2" />
+            </li>
+
+        </ul>
+    </div>
+
+</div>
+<div class="contacts_page">
+    <div class="container">
+        <h1 class="head_section">
+          {{ Seo.get('h1') }}
+        </h1>
+      
+
+        <div class="box_contacts">
+            {% if delivery_cost.view_map==1 %}
+            <div id="map" class="map">
+                <script>
+                    function initMap() {
+                        var coordinates = {lat: 50.450954, lng: 30.467662},
+                            markerImage = 'img/map_marker.png',
+                            map = new google.maps.Map(document.getElementById('map'), {
+                                center: {lat: 50.450954, lng: 30.467662},
+                                zoom: 15,
+                                disableDefaultUI: true
+                            });
+
+                        marker = new google.maps.Marker({
+                            position: coordinates,
+                            map: map,
+                            icon: markerImage
+                        });
+                    }
+                </script>
+                <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCK1nSQppCGK6vp3cJtaA6FTIZZ3U-ghvM&callback=initMap">
+
+                </script>
+            </div>
+            {% endif %}
+            <div class="content_map">
+
+                    <ul class="list_contacts" itemscope="" itemtype="http://schema.org/Organization">
+                        {%  if  delivery_cost.address_contacts  %}
+                        <li class="item">
+                            <div class="img">
+                                <img src="/img/contact_1.png" alt="">
+                            </div>
+                            <div class="title_txt" itemprop="address" itemscope="" itemtype="http://schema.org/PostalAddress">{{ this.params.address }}:
+                            <div class="txt">{{ delivery_cost.address_contacts }}</div></div>
+                        </li>
+                        {% endif %}
+                        <li class="item">
+                            <div class="img">
+                                <img src="/img/contact_2.png" alt="">
+                            </div>
+                            <div class="title_txt">{{ this.params.contact_work }}:</div>
+                            <div class="txt">{{ this.params.pn_wd }} </div>
+							{#<div class="txt">{{ this.params.pn_ww }} </div>#}
+                        </li>
+
+                        <li class="item">
+                            <div class="img">
+                                <img src="/img/contact_3.png" alt="">
+                            </div>
+                            <div class="title_txt">{{ this.params.tel }}:</div>
+			                <a class="txt" href="tel:0444533333" itemprop="telephone">(044)453-33-33</a></br>
+					        <a class="txt" href="tel:0932884333" itemprop="telephone">(093) 288-43-33</a></br>
+	                        <a class="txt" href="tel:0978984333" itemprop="telephone">(097)898-43-33</a></br>
+                            <a class="txt" href="tel:0660784333" itemprop="telephone">(066) 078-43-33</a>
+
+                        </li>
+
+                        <li class="item">
+                            <div class="img">
+                                <img src="/img/contact_4.png" alt="">
+                            </div>
+                            <div class="title_txt">{{ this.params.address_mail }}:</div>
+                            <div class="txt" itemprop="email">{{ this.params.address}}</div>
+							<div class="txt" itemprop="email">{{ delivery_cost.email_contacts}}</div>
+                        </li>
+                    </ul>
+                    <button class="btn_callback" data-toggle="modal" data-target="#contacts_page">{{ this.params.write_to_us }}</button>
+                </div>
+            </div>
+
+       
+    </div>
+
+
+
+</div>
